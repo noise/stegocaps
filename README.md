@@ -18,13 +18,12 @@ It's somewhat questionable if the more basic algorithms herein are truly stegano
 
 # Todo
 
-# generate lorem ipsum text for cover
-# fetch random wikipedia text for cover
-# repeat text to needed length for cover
-# truncate text to needed length for cover
-# protection against overflow/exhaustion of cover
-# unit tests
-
+* generate lorem ipsum text for cover
+* fetch random wikipedia text for cover
+* repeat text to needed length for cover
+* truncate text to needed length for cover
+* protection against overflow/exhaustion of cover
+* unit tests
 
 # Related tools and research
 

@@ -6,75 +6,6 @@ from optparse import OptionParser
 
 import steg_util
 
-# ------------- Algorithms --------------------------------
-# 'Classic' STegOcaPs: capitalize each letter in cover text
-# that matches the plaintext
-CAPS = 0
-# Same as Classic but colorize for easy viewing/debugging
-CAPS_COLOR = 1
-# Transpose each letter in cover text that matches the plaintext
-# with the next letter in the cover text
-TRANSPOSE = 2
-# Inverse of 'Classic'
-CAPS_INVERSE = 4
-# ---------------------------------------------------------
-
-
-
-def crypt(cover, plainText, algorithm):
-    '''
-    Convert plaintext to ciphertext using provided cover text and algorithm
-    :param cover: cover text within which to hide the plaintext
-    :param plainText: given plaintext to hide
-    :param alorithm: cipher method, see above for full descriptions
-    :return: ciphertext output
-    '''
-    cover_l = list(cover.lower())
-    cipherCap = list(cover.lower())
-    cipherCapI = list(cover.upper())
-    cipherTP = list(cover)
-    plainText = plainText.lower()
-
-    # strip out punctuation and spaces
-    table = string.maketrans("", "")
-    plainText = plainText.translate(table, string.punctuation)
-    plainText = plainText.translate(table, ' ')
-
-    #    print "%s\n" % plainText
-
-    j = 0
-    cipherColor = ""
-
-    for i in xrange(len(plainText)):
-        while plainText[i] != cover_l[j]:
-            cipherColor = cipherColor + cover[j]
-            cipherCap[j] = cover_l[j]
-            j = j + 1
-
-        cipherCap[j] = cover_l[j].upper()
-        cipherCapI[j] = cipherCapI[j].lower()
-
-        # todo: currently we can transpose the last letter of a word
-        # and the following space which breaks the words up incorrectly.
-        # todo: also, there's a bug if there are 2 hidden letters in a row in
-        # the cover text, need to advance +2, but then we need to decouple
-        # from the other modes
-        cipherTP[j - 1] = cover[j]
-        cipherTP[j] = cover[j - 1]
-        cipherColor = cipherColor + steg_util.BOLD + cover_l[j].upper() + steg_util.ENDC
-
-        j = j + 1
-
-    if algorithm == CAPS_COLOR:
-        return "".join(cipherColor)
-    elif algorithm == CAPS_INVERSE:
-        return "".join(cipherCapI)
-    elif algorithm == TRANSPOSE:
-        return "".join(cipherTP)
-    else:
-        return "".join(cipherCap)
-
-
 def get_class(kls):
     parts = kls.split('.')
     module = ".".join(parts[:-1])
@@ -85,12 +16,6 @@ def get_class(kls):
 
 
 if __name__ == '__main__':
-
-    # TODO: command-line args
-    # --cover (file)
-    # --secret (file or string)
-    # --color
-    # --mode/algo
 
     plainText = "This is some hidden text, see?"
 
